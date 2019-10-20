@@ -72,6 +72,9 @@ function removeLocation(evt) {
  * @param {Object} data Weather forecast data to update the element with.
  */
 function renderForecast(card, data) {
+  // If the data on the element is newer, skip the update.
+
+
   if (!data) {
     // There's no data, skip the update.
     return;
@@ -163,7 +166,21 @@ function getForecastFromNetwork(coords) {
  */
 function getForecastFromCache(coords) {
   // CODELAB: Add code to get weather forecast from the caches object.
-
+  if (!('caches' in window)) {
+    return null;
+  }
+  const url = `${window.location.origin}/forecast/${coords}`;
+  return caches.match(url)
+      .then((response) => {
+        if (response) {
+          return response.json();
+        }
+        return null;
+      })
+      .catch((err) => {
+        console.error('Error getting data from cache', err);
+        return null;
+      });
 }
 
 /**
@@ -198,7 +215,10 @@ function updateData() {
     const location = weatherApp.selectedLocations[key];
     const card = getForecastCard(location);
     // CODELAB: Add code to call getForecastFromCache
-
+    getForecastFromCache(location.geo)
+    .then((forecast) => {
+      renderForecast(card, forecast);
+    });
     // Get the forecast data from the network.
     getForecastFromNetwork(location.geo)
         .then((forecast) => {
@@ -232,9 +252,9 @@ function loadLocationList() {
     }
   }
   if (!locations || Object.keys(locations).length === 0) {
-    const key = '40.7720232,-73.9732319';
+    const key = '-27.4605598,-58.9838905';
     locations = {};
-    locations[key] = {label: 'New York City', geo: '40.7720232,-73.9732319'};
+    locations[key] = {label: 'Resistencia, Chaco', geo: '-27.4605598,-58.9838905'};
   }
   return locations;
 }

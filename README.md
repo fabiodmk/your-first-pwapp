@@ -52,3 +52,12 @@ specific language governing permissions and limitations under the License.
 
 [codelab]: https://codelabs.developers.google.com/codelabs/your-first-pwapp/
 [git-issue]: https://github.com/googlecodelabs/your-first-pwapp/issues
+
+
+Dark API
+
+Ejemplo request (fabio) - 20/10/2019
+
+https://api.darksky.net/forecast/920e03d2ef245ae7bfe4a41f5699ffe8/-27.4605598,-58.9838905
+
+Clave privada secreta: 920e03d2ef245ae7bfe4a41f5699ffe8
